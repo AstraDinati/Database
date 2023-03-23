@@ -1,0 +1,68 @@
+Цепочка связанных таблиц
+Пусть теперь юзеры живут в определенных городах, а эти города расположены в разных странах. В таком случае для хранения нам понадобятся уже три таблицы: юзеры будут связаны с городами, а города - со странами. При этом нам не нужно будет поле связи юзеров со странами - ведь юзеры и так будут связаны со странами через связь городов и стран.
+
+Давайте посмотрим на наши таблицы. Таблица со странами:
+
+countries
+id	name
+1	country1
+2	country2
+Таблица с городами:
+
+cities
+id	name	country_id
+1	city1	1
+2	city2	1
+3	city3	2
+Таблица с юзерами останется неизменной:
+
+users
+id	name	city_id
+1	user1	1
+2	user2	1
+3	user3	2
+4	user4	1
+5	user5	3
+6	user6	2
+
+Запросы
+Для того, чтобы достать юзеров вместе с их городами и странами, нам придется сделать два джоина: первый присоединит города к юзерам, а второй - страны к городам:
+
+SELECT 
+	users.name,
+	cities.name as city_name,
+	countries.name as country_name
+FROM 
+	users
+LEFT JOIN cities ON cities.id=users.city_id
+LEFT JOIN countries ON countries.id=cities.country_id
+
+Практические задачи
+№1⊗ppPmDOChLT
+
+Пусть товары принадлежат определенной подкатегории, а подкатегории принадлежат определенной категории. Распишите структуру хранения.
+//
+
+№2⊗ppPmDOChLT
+
+Напишите запрос, который достанет товары, вместе с их подкатегориями и категориями.
+
+SELECT 
+	Products.name, 
+    Subcategories.name as subcategory_name, 
+    Categories.name as category_name
+FROM 
+	Products
+LEFT JOIN Subcategories ON Subcategories.id=Products.id_product_subcategory
+LEFT JOIN Categories ON Categories.id=Subcategories.id_category
+
+№3⊗ppPmDOChLT
+
+Напишите запрос, который достанет подкатегории вместе с их категориями.
+
+SELECT 
+    Subcategories.name,
+    Categories.name as category_name
+FROM 
+	Subcategories
+LEFT JOIN Categories ON Categories.id=Subcategories.id_category
