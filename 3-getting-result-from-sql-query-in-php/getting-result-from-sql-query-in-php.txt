@@ -1,0 +1,103 @@
+1. Получение результата при SQL запросе в PHP
+В предыдущем уроке мы сделали тестовый код. Напомню его существенную часть, выполняющую запрос к базе:
+
+<?php
+	$query = 'SELECT * FROM users';
+	$result = mysqli_query($link, $query) or die(mysqli_error($link));
+	var_dump($result);
+?>
+Как вы видите, после того, как произойдет запрос к базе, в переменной $result будет лежать результат этого действия. Однако лежит 
+он не в той форме, которая нам нужна в PHP, а в той форме, в которой его прислала нам база.
+
+Для того, чтобы получить результат в привычной нам форме, необходимо воспользоваться функцией mysqli_fetch_assoc, извлекающей из 
+результата одну строку.
+
+Давайте попробуем:
+
+<?php
+	$row = mysqli_fetch_assoc($result);
+	var_dump($row);
+?>
+В результате var_dump выведет массив с первым работником:
+
+<?php
+	['id' => 1, 'name' => 'user1', 'age' => 23, 'salary' => 400]
+?>
+При этом из переменной $result первый работник исчезнет, и следующий вызов mysqli_fetch_assoc получит уже следующего работника.
+
+И так можно можно вызывать нашу функцию до тех пор, пока работники не закончатся. Как только это произойдет, то следующий вызов 
+функции вернет false.
+
+Давайте попробуем:
+
+<?php
+	$row1 = mysqli_fetch_assoc($result);
+	var_dump($row1); // работник номер 1
+	
+	$row2 = mysqli_fetch_assoc($result);
+	var_dump($row2); // работник номер 2
+	
+	$row3 = mysqli_fetch_assoc($result);
+	var_dump($row3); // работник номер 3
+	
+	$row4 = mysqli_fetch_assoc($result);
+	var_dump($row4); // работник номер 4
+	
+	$row5 = mysqli_fetch_assoc($result);
+	var_dump($row5); // работник номер 5
+	
+	$row6 = mysqli_fetch_assoc($result);
+	var_dump($row6); // работник номер 6
+	
+	$row7 = mysqli_fetch_assoc($result);
+	var_dump($row7); // выведет NULL - работники кончились
+?>
+
+2. Получение в виде массива
+При считывании по рядам можно не выводить каждого работника, а записывать их в какой-нибудь массив:
+
+<?php
+	$row1 = mysqli_fetch_assoc($result);
+	$data[] = $row1;
+	
+	$row2 = mysqli_fetch_assoc($result);
+	$data[] = $row2;
+	
+	$row3 = mysqli_fetch_assoc($result);
+	$data[] = $row3;
+	
+	$row4 = mysqli_fetch_assoc($result);
+	$data[] = $row4;
+	
+	$row5 = mysqli_fetch_assoc($result);
+	$data[] = $row5;
+	
+	$row6 = mysqli_fetch_assoc($result);
+	$data[] = $row6;
+?>
+В результате в переменной $data получится следующий двухмерный массив:
+
+<?php
+	[
+		['id' => 1, 'name' => 'user1', 'age' => 23, 'salary' => 400],
+		['id' => 2, 'name' => 'user2', 'age' => 25, 'salary' => 500],
+		['id' => 3, 'name' => 'user3', 'age' => 23, 'salary' => 500],
+		['id' => 4, 'name' => 'user4', 'age' => 30, 'salary' => 900],
+		['id' => 5, 'name' => 'user5', 'age' => 27, 'salary' => 500],
+		['id' => 6, 'name' => 'user6', 'age' => 28, 'salary' => 900],
+	]
+?>
+
+3. Формируем массив в цикле
+Конечно же, в ручную перебирать всех работников не очень удобно. Пусть лучше за нас это сделает цикл:
+
+<?php
+	for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
+	var_dump($data); // здесь будет массив с результатом
+?>
+Давайте разберемся, как работает этот цикл.
+
+В каждой итерации цикла функция mysqli_fetch_assoc последовательно считывает каждую строку результата, записывая его в массив $data.
+
+Как только в $result закончатся строки, то mysqli_fetch_assoc вернет NULL и цикл закончит свою работу. А полученный результат будет 
+лежать в двухмерном массиве $data.
