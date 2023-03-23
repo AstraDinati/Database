@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 23 2023 г., 22:15
+-- Время создания: Мар 24 2023 г., 00:23
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -38,11 +38,9 @@ CREATE TABLE `Products` (
 
 INSERT INTO `Products` (`id`, `name`) VALUES
 (1, 'apple pie'),
-(2, 'apple pie'),
-(3, 'meat pie'),
-(4, 'sour cream'),
-(5, 'yogurt'),
-(6, 'yogurt');
+(2, 'meat pie'),
+(3, 'sour cream'),
+(4, 'yogurt');
 
 --
 -- Индексы сохранённых таблиц
