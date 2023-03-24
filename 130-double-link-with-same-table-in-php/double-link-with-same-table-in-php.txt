@@ -1,0 +1,42 @@
+Двойная связь с одной таблицей в PHP
+Пусть у нас есть города:
+
+cities
+id	name
+1	city1
+2	city2
+3	city3
+Пусть у нас есть маршруты между городами, при этом каждый маршрут имеет город начала и город конца:
+
+routes
+id	name	from_city_id	to_city_id
+1	route1	1	2
+2	route2	2	3
+Пусть мы хотим получить маршруты вместе с городами. Сложность здесь представляет то, что каждый маршрут имеет два города: начало и конец.
+
+Получается, что таблицу с городами нужно джойнить два раза. При каждом джоине таблицу придется переименовать:
+
+SELECT
+	from_cities.name as from_city_name,
+	to_cities.name as to_city_name
+FROM
+	routes
+LEFT JOIN cities as from_cities
+	ON from_cities.id=routes.from_city_id
+LEFT JOIN cities as to_cities
+	ON to_cities.id=routes.to_city_id
+
+№1⊗ppPmDODR
+
+Пусть у нас есть юзеры. Каждый юзер имеет отца и мать. Распишите структуру хранения.
+
+parents
+id	name
+1	name1
+2	name2
+3	name3
+
+
+id	name	father_id	mother_id
+1	child1	2	        1
+2	child2	2	        3
