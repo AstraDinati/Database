@@ -1,0 +1,114 @@
+Оформление вывода из базы данных в PHP
+Вы уже умеете получать данные из базы данных. Давайте выведем теперь такие данные, оформив их тегами.
+
+Например, записи нашей тестовой таблицы users выведем в следующем виде:
+
+<p>
+	<b>user1</b>
+	<b>23</b>
+	<b>400</b>
+</p>
+<p>
+	<b>user2</b>
+	<b>24</b>
+	<b>500</b>
+</p>
+<p>
+	<b>user3</b>
+	<b>25</b>
+	<b>600</b>
+</p>
+Для начала давайте получим массив записей из нашей базы данных:
+
+<?php
+	$query = "SELECT * FROM users";
+	$result = mysqli_query($link, $query) or die(mysqli_error($link));
+	for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
+?>
+Выведем теперь данные нашего массива в оформленном виде:
+
+<?php
+	$result = '';
+	
+	foreach ($data as $elem) {
+		$result .= '<p>';
+		
+		$result .= '<b>' . $elem['name'] . '</b>';
+		$result .= '<b>' . $elem['age'] . '</b>';
+		$result .= '<b>' . $elem['salary'] . '</b>';
+		
+		$result .= '</p>';
+	}
+	
+	echo $result;
+?>
+Можно переписать и в следующем виде:
+
+<?php foreach ($data as $elem): ?>
+	<p>
+		<b><?= $elem['name'] ?></b>
+		<b><?= $elem['age'] ?></b>
+		<b><?= $elem['salary'] ?></b>
+	</p>
+<?php endforeach; ?>
+№1⊗ppPmDPOF
+
+Выведите записи нашей таблицы в следующем виде:
+
+<div>
+	<h2>user1</h2>
+	<p>
+		23 years, <b>400$</b>
+	</p>
+</div>
+<div>
+	<h2>user2</h2>
+	<p>
+		24 years, <b>500$</b>
+	</p>
+</div>
+<div>
+	<h2>user3</h2>
+	<p>
+		25 years, <b>600$</b>
+	</p>
+</div>
+№2⊗ppPmDPOF
+
+Выведите записи нашей таблицы в следующем виде:
+
+<table>
+	<tr>
+		<th>id</th>
+		<th>name</th>
+		<th>age</th>
+		<th>salary</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>user1</td>
+		<td>23</td>
+		<td>400</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>user2</td>
+		<td>25</td>
+		<td>500</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>user3</td>
+		<td>23</td>
+		<td>500</td>
+	</tr>
+</table>
+№3⊗ppPmDPOF
+
+Выведите записи нашей таблицы в следующем виде:
+
+<ul>
+	<li>user1</li>
+	<li>user2</li>
+	<li>user3</li>
+</ul>

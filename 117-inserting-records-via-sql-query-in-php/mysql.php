@@ -9,7 +9,8 @@
     mysqli_query($link, "SET NAMES 'utf-8'");
 
     $query = "INSERT INTO users(name, age, salary) VALUES ('user7', 26, 300)"; 
-
+    mysqli_query($link, $query) or die(mysqli_error($link));
+    
     // $result = mysqli_query($link, $query) or die(mysqli_error($link));
     // for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
     
