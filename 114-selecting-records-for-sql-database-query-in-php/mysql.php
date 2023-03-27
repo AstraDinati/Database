@@ -14,7 +14,7 @@
     // $query = 'SELECT * FROM users WHERE salary > 400'; //4
     // $query = 'SELECT * FROM users WHERE salary >= 500'; //5
     // $query = 'SELECT * FROM users WHERE salary <> 500'; //6
-    // $query = 'SELECT * FROM users WHERE salary <= 500'; //7
+   //  $query = 'SELECT * FROM users WHERE salary <= 500'; //7
     $result = mysqli_query($link, $query) or die(mysqli_error($link));
     for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
     

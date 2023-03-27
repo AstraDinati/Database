@@ -17,18 +17,29 @@
     die(mysqli_error($link)); 
     
     $user = mysqli_fetch_assoc($result);
-    }
-?>
+    } ?>
+
+    <h2>Выберите юзера, данные которого хотите изменить:</h2>
+
+    <?php
+    $query = 'SELECT * FROM users';
+    $result = mysqli_query($link, $query) or die(mysqli_error($link));
+    for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); 
+    
+    echo '<ul>';
+    foreach($data as $elem){ ?>
+    <li><?= $elem['name'] ?><a href="?id=<?= $elem['id'] ?>"> edit</a></li>
+    <?php } ?>
+    </ul>
 
 <form method="GET">
-    Введите id: <input name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id'] ?>">
+    Или введите id: <input name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id'] ?>">
     <input type="submit" value="Показать юзера">
 </form>
 
 <h3>Изменение данных юзера: </h3>
 
-<form action="/136-editing-a-database-entry-in-php/save.php/?id=<?= $_GET['id'] 
-	?>" method="POST">
+<form  method="POST">
 	<p>Введите новое имя: <input name="name" 
 		value="<?php if(isset($_GET['id'])) echo $user['name'] 
 		?>"> </p>
@@ -39,3 +50,20 @@
 		?>"> </p>
 	<input type="submit" value="Изменить">
 </form>
+
+<?php 
+if(isset($_POST['name']) AND isset($_POST['age']) AND isset($_POST['salary'])){
+$name = $_POST['name'];
+$age = $_POST['age'];
+$salary = $_POST['salary'];
+
+$query = "UPDATE users SET
+		name='$name', age='$age', salary='$salary'
+	WHERE id=$id";
+
+mysqli_query($link, $query) or 
+die(mysqli_error($link)); 
+
+echo 'Юзер успешно изменен!';
+}
+?>
