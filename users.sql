@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 27 2023 г., 03:05
+-- Время создания: Мар 27 2023 г., 04:04
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -41,13 +41,14 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `age`, `salary`) VALUES
 (1, 'Andrew', 22, 500),
 (2, 'Kevin', 32, 1100),
-(3, 'Ana', 18, 600),
+(3, 'Ana', 19, 700),
 (4, 'Roman', 42, 1000),
-(5, 'Vadim', 24, 700),
+(5, 'Vadim', 26, 700),
 (6, 'Anthony', 25, 500),
-(7, 'Polina', 25, 1000),
+(7, 'Polina', 26, 1000),
 (8, 'Kate', 27, 800),
-(9, 'Natasha', 18, 10000);
+(9, 'Natasha', 18, 10000),
+(10, 'Monkey D. Luffy', 20, 2000);
 
 --
 -- Индексы сохранённых таблиц
@@ -67,7 +68,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
