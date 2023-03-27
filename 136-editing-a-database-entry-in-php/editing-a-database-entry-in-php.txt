@@ -1,0 +1,102 @@
+Редактирование записи в БД на PHP
+Давайте теперь реализуем редактирование юзера. Для этого нам понадобится две страницы: страница edit.php, на которой будет размещаться форма для редактирования юзера, и страница save.php, на которую форма будет отправляться для последующего сохранения.
+
+Страница редактирования
+Для начала на странице edit.php сделаем форму:
+
+<form action="" method="POST">
+	<input name="name">
+	<input name="age">
+	<input name="salary">
+	<input type="submit">
+</form>
+В эту форму мы будем загружать текущее данные юзера из базы данных. Пусть id юзера для редактирования передается в GET параметре:
+
+<?php
+	$id = $_GET['id'];
+?>
+Сформируем запрос на получение юзера:
+
+<?php
+	$query = "SELECT * FROM users 
+		WHERE id=$id"; 
+?>
+Выполним запрос:
+
+<?php
+	$result = mysqli_query($link, $query) or 
+		die(mysqli_error($link)); 
+?>
+Получим данные юзера в переменную:
+
+<?php
+	$user = mysqli_fetch_assoc($result);
+?>
+Выведем эти данные в нашей форме:
+
+<form method="POST">
+	<input name="name" 
+		value="<?= $user['name'] 
+		?>"> 
+	<input name="age" value="<?= $user['age'] 
+		?>"> 
+	<input name="salary" 
+		value="<?= $user['salary'] 
+		?>"> 
+	<input type="submit">
+</form>
+Поменяем action формы так, чтобы она отправлялась на страницу save.php:
+
+<form action="save.php" method="POST">
+При этом GET параметром будем передавать id юзера для редактирования:
+
+<form action="save.php?id=<?= $_GET['id'] 
+	?>" method="POST"> 
+Страница сохранения
+На странице save.php получим отправленные данные:
+
+<?php
+	$id = $_GET['id'];
+	$name = $_POST['name'];
+	$age = $_POST['age'];
+	$salary = $_POST['salary'];
+?>
+Сформируем запрос на обновление:
+
+<?php
+	$query = "UPDATE users SET
+		name='$name', age='$age', salary='$salary'
+	WHERE id=$id";
+?>
+Выполним запрос:
+
+<?php
+	mysqli_query($link, $query) or 
+		die(mysqli_error($link)); 
+?>
+Вывыдем сообщение об успехе операции:
+
+<?php
+	echo 'юзер успешно изменен!';
+?>
+Практические задачи
+№1⊗ppPmDPDE
+
+Реализуйте страницу edit.php для редактирования юзера.
+
+№2⊗ppPmDPDE
+
+Реализуйте страницу save.php для сохранения результата редактирования.
+
+№3⊗ppPmDPDE
+
+На странице index.php выведите на экран список юзеров так, чтобы для каждого юзера была ссылка для его редактирования:
+
+<ul>
+	<li>user1 <a href="?edit=1">edit</a></li>
+	<li>user2 <a href="?edit=2">edit</a></li>
+	<li>user3 <a href="?edit=3">edit</a></li>
+</ul>
+№4⊗ppPmDPDE
+
+Реализуйте обработку формы на странице edit.php.

@@ -1,0 +1,61 @@
+Просмотр данных из БД в PHP
+Давайте сделаем страницу show.php, на которой можно будет посмотреть данные юзера, оформленные в определенную верстку.
+
+Пусть для этого у нас дана следующая верстка:
+
+<div>
+	<h1>user1</h1>
+	<p>
+		age: <span class="age">23</span>,
+		salary: <span class="salary">400</span>
+	</p>
+</div>
+Пусть id юзера, которого мы хотим просмотреть, передается через GET параметр с именем id. Получим его в переменную:
+
+<?php
+	$id = $_GET['id'];
+?>
+Сформируем запрос на получение этого юзера:
+
+<?php
+	$query = "SELECT * FROM users WHERE id=$id";
+?>
+Выполним запрос:
+
+<?php
+	$result = mysqli_query($link, $query) or die(mysqli_error($link));
+?>
+Запишем данные юзера в переменную:
+
+<?php
+	$user = mysqli_fetch_assoc($result);
+?>
+Выведем эти данные в нашей верстке:
+
+<div>
+	<h1><?= $user['name'] ?></h1>
+	<p>
+		age: <span class="age"><?= $user['age'] ?></span>,
+		salary: <span class="salary"><?= $user['salary'] ?></span>
+	</p>
+</div>
+№1⊗ppPmDPDV
+
+Реализуйте просмотр юзера с помощью следующей верстки:
+
+<div>
+	<p>
+		имя: <span class="name">user1</span>
+	</p>
+	<p>
+		возраст: <span class="age">23</span>,
+		зарплата: <span class="salary">400$</span>,
+	</p>
+</div>
+№2⊗ppPmDPDV
+
+На странице index.php реализуйте вывод ссылок на просмотр каждого из юзеров:
+
+<a href="show.php?id=1">user1</a>
+<a href="show.php?id=2">user2</a>
+<a href="show.php?id=3">user3</a>
